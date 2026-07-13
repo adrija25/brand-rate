@@ -1,0 +1,2 @@
+import {json,sha256} from "../../_lib.js";
+export async function onRequestGet({params,env}){const hash=await sha256(params.token); const row=await env.DB.prepare("SELECT id,payload,paid_at FROM kits WHERE access_token_hash=? AND status='paid'").bind(hash).first(); if(!row)return json({error:"Invalid or expired access link"},403); return json({kitId:row.id,payload:JSON.parse(row.payload),paidAt:row.paid_at});}
