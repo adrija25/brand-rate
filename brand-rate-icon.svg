@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Brand Rate">
+  <rect width="64" height="64" rx="16" fill="#171717"/>
+  <path d="M15 16h17c9 0 14 4 14 11 0 4-2 7-6 9 6 2 9 6 9 12H39c0-5-3-8-9-8h-5v8H15V16zm10 9v7h7c3 0 5-1 5-4s-2-3-5-3h-7z" fill="#fff"/>
+  <path d="M38 18h11v11" fill="none" stroke="#7257ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M48 19 35 32" fill="none" stroke="#7257ff" stroke-width="5" stroke-linecap="round"/>
+</svg>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="brand-rate-icon.svg" type="image/svg+xml">
   <title>Your Creator Pricing Kit | Brand Rate</title>
   <link rel="stylesheet" href="style.css">
   <style>
@@ -65,7 +66,8 @@
       body{background:#fff}.kit-shell{max-width:none;padding:0}.kit-top,.kit-actions,.preview-content{display:none!important}
       .paid-content{display:block!important}.kit-hero,.kit-section{break-inside:avoid;border-color:#ccc}
     }
-  </style>
+  .checkout-email{margin:18px 0 4px}.checkout-email label{display:block;font-weight:700;margin-bottom:8px}.checkout-email input{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #4a4a4a;border-radius:10px;background:#242424;color:#fff;font:inherit}.checkout-email small{display:block;color:#aaa;margin-top:7px}.checkout-btn{width:100%;border:0;border-radius:9px;padding:14px 16px;font:inherit;font-weight:800;cursor:pointer;background:#7257ff;color:#fff}.checkout-btn-light{background:#fff;color:#171717}.checkout-btn:disabled{opacity:.55;cursor:wait}.checkout-status{min-height:22px;margin-top:14px;color:#ddd}.brand-icon{width:28px;height:28px;vertical-align:middle;margin-right:9px;border-radius:8px}
+</style>
 </head>
 <body>
   <main class="kit-shell">
@@ -125,42 +127,15 @@
     </div>
 
     <div class="kit-actions preview-content">
-      <div class="purchase-head">
-        <div>
-          <strong>Unlock your Creator Pricing Kit</strong><br>
-          <span id="unlock-copy"></span>
-        </div>
-        <div class="payment-note">Choose the payment option for your region.</div>
-      </div>
+      <div class="purchase-head"><div><strong>Unlock your Creator Pricing Kit</strong><br><span id="unlock-copy"></span></div><div class="payment-note">Choose the payment option for your region.</div></div>
+      <div class="checkout-email"><label for="buyer-email">Email for purchase access</label><input id="buyer-email" type="email" autocomplete="email" placeholder="you@example.com"><small>Your secure access link is tied to this purchase.</small></div>
       <div class="payment-options">
-        <div class="payment-option">
-          <span class="payment-label">India · INR</span>
-          <div class="payment-title">Pay ₹499 in India</div>
-          <div class="payment-price">One-time payment via Razorpay</div>
-          <div class="payment-button-zone">
-            <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TCw5Fm8bKM4Tmf" async></script></form>
-          </div>
-          <div class="payment-foot">For Indian cards, UPI and supported local payment methods.</div>
-        </div>
-        <div class="payment-option">
-          <span class="payment-label">International · USD</span>
-          <div class="payment-title">Pay $9 internationally</div>
-          <div class="payment-price">One-time international payment via PayPal</div>
-          <div class="payment-button-zone">
-            <div id="paypal-container-X6RM6SU22T6QN"></div>
-          </div>
-          <div class="payment-foot">For customers paying outside India.</div>
-        </div>
-      </div>
+        <div class="payment-option"><span class="payment-label">India · INR</span><div class="payment-title">Pay ₹499 in India</div><div class="payment-price">Verified one-time payment via Razorpay</div><div class="payment-button-zone"><button class="checkout-btn" id="razorpay-checkout">Pay ₹499 securely</button></div><div class="payment-foot">Indian cards, UPI and supported local payment methods.</div></div>
+        <div class="payment-option"><span class="payment-label">International · USD</span><div class="payment-title">Pay $9 internationally</div><div class="payment-price">Verified one-time payment via PayPal</div><div class="payment-button-zone" id="paypal-checkout-zone"><button class="checkout-btn checkout-btn-light" id="paypal-start">Continue with PayPal</button></div><div class="payment-foot">For customers paying outside India.</div></div>
+      </div><div class="checkout-status" id="checkout-status" role="status"></div>
     </div>
   </main>
-  <script src="https://www.paypal.com/sdk/js?client-id=BAAzWfSbnKYbltgmm5QTGpHmulutB1qc9_GJaCaRgNaSwf5NkESOEx5G0bOuRuy62gjT4i4kZ5Nxo5VqWE&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
-  <script>
-    if (window.paypal && paypal.HostedButtons) {
-      paypal.HostedButtons({ hostedButtonId: "X6RM6SU22T6QN" })
-        .render("#paypal-container-X6RM6SU22T6QN");
-    }
-  </script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="pricing-kit.js"></script>
 </body>
 </html>

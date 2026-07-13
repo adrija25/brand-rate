@@ -6,3 +6,5 @@
 .addon-row strong{color:var(--ink)}
 .addon-total{font-weight:800}
 @media(max-width:560px){.addon-row,.addon-total{align-items:flex-start}.addon-row span,.addon-total span{max-width:65%}}
+
+.brand-icon{width:28px;height:28px;vertical-align:middle;margin-right:9px;border-radius:8px}.brand{display:flex;align-items:center}
