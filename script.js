@@ -6,32 +6,21 @@ const money = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 0
 });
 
-const platformConfig = {
-  instagram: { reachWeight: 1.00, tierWeight: 1.00 },
-  tiktok: { reachWeight: 0.95, tierWeight: 0.90 },
-  youtube: { reachWeight: 1.45, tierWeight: 1.55 }
+const platformFactor = {
+  instagram: 1.00,
+  tiktok: 0.95,
+  youtube: 1.45
 };
 
 const contentFactor = {
   story: 0.50,
-  post: 0.80,
+  post: 0.78,
   short: 1.20,
   integration: 1.80,
   dedicated: 3.10
 };
 
-const marketCPM = {
-  india: [250, 650],
-  us: [900, 2200],
-  uk: [750, 1800],
-  canada: [700, 1650],
-  australia: [700, 1700],
-  europe: [550, 1400],
-  global: [450, 1150],
-  other: [300, 800]
-};
-
-const marketFloorFactor = {
+const marketFactor = {
   india: 1.00,
   us: 2.80,
   uk: 2.30,
@@ -57,26 +46,64 @@ const nicheFactor = {
   other: 1.00
 };
 
-function getTier(followers) {
-  if (followers < 10000) return { name: "Nano creator", floor: 1500 };
-  if (followers < 50000) return { name: "Micro creator", floor: 5000 };
-  if (followers < 100000) return { name: "Mid-tier creator", floor: 10000 };
-  if (followers < 500000) return { name: "Established creator", floor: 25000 };
-  return { name: "Macro creator", floor: 75000 };
+// Broad India benchmark guardrails for the base deliverable.
+// Market, platform, content and niche modifiers are applied afterwards.
+const indiaFollowerGuardrails = [
+  { followers: 1000, low: 1000, target: 1800, high: 3500 },
+  { followers: 5000, low: 2000, target: 3500, high: 6500 },
+  { followers: 10000, low: 3500, target: 6000, high: 10000 },
+  { followers: 25000, low: 6000, target: 9000, high: 15000 },
+  { followers: 50000, low: 9000, target: 14000, high: 24000 },
+  { followers: 100000, low: 15000, target: 24000, high: 42000 },
+  { followers: 250000, low: 30000, target: 50000, high: 90000 },
+  { followers: 500000, low: 50000, target: 85000, high: 150000 },
+  { followers: 1000000, low: 90000, target: 150000, high: 275000 }
+];
+
+function interpolateLog(followers, key) {
+  const points = indiaFollowerGuardrails;
+  if (followers <= points[0].followers) {
+    return points[0][key] * Math.max(0.55, Math.pow(followers / points[0].followers, 0.35));
+  }
+  if (followers >= points[points.length - 1].followers) {
+    return points[points.length - 1][key] * Math.pow(followers / points[points.length - 1].followers, 0.45);
+  }
+
+  for (let i = 0; i < points.length - 1; i++) {
+    const a = points[i];
+    const b = points[i + 1];
+    if (followers >= a.followers && followers <= b.followers) {
+      const x = Math.log(followers);
+      const x1 = Math.log(a.followers);
+      const x2 = Math.log(b.followers);
+      const t = (x - x1) / (x2 - x1);
+      return a[key] + (b[key] - a[key]) * t;
+    }
+  }
+}
+
+function engagementModifier(rate) {
+  if (rate < 1.5) return 0.88;
+  if (rate < 3) return 1.00;
+  if (rate < 5) return 1.10;
+  if (rate < 8) return 1.20;
+  return 1.28;
+}
+
+function performanceModifier(views, followers) {
+  const ratio = views / followers;
+  if (ratio < 0.10) return 0.82;
+  if (ratio < 0.20) return 0.92;
+  if (ratio < 0.35) return 1.00;
+  if (ratio < 0.50) return 1.10;
+  if (ratio < 0.75) return 1.20;
+  return 1.30;
 }
 
 function roundRate(value) {
   if (value < 5000) return Math.max(500, Math.round(value / 100) * 100);
   if (value < 25000) return Math.round(value / 500) * 500;
   return Math.round(value / 1000) * 1000;
-}
-
-function engagementModifier(rate) {
-  if (rate < 1.5) return 0.85;
-  if (rate < 3) return 1.00;
-  if (rate < 5) return 1.12;
-  if (rate < 8) return 1.25;
-  return 1.35;
 }
 
 form.addEventListener("submit", (event) => {
@@ -93,32 +120,32 @@ form.addEventListener("submit", (event) => {
 
   if (!followers || !views || followers < 1 || views < 1 || engagement < 0 || engagement > 100) return;
 
-  const platformData = platformConfig[platform];
-  const tier = getTier(followers);
-  const [lowCPM, highCPM] = marketCPM[market];
+  const followerLow = interpolateLog(followers, "low");
+  const followerTarget = interpolateLog(followers, "target");
+  const followerHigh = interpolateLog(followers, "high");
 
-  const reachLow = (views / 1000) * lowCPM * platformData.reachWeight;
-  const reachHigh = (views / 1000) * highCPM * platformData.reachWeight;
-  const reachMid = (reachLow + reachHigh) / 2;
-
-  const tierAnchor =
-    tier.floor *
-    marketFloorFactor[market] *
-    platformData.tierWeight;
-
-  // Hybrid model: performance/reach is the main anchor, while creator tier
-  // supplies a floor and established-audience value.
-  const hybridBase = (reachMid * 0.65) + (tierAnchor * 0.35);
-
-  const adjustedTarget =
-    hybridBase *
+  const perf = performanceModifier(views, followers);
+  const engagementMod = engagementModifier(engagement);
+  const commonModifier =
+    marketFactor[market] *
+    platformFactor[platform] *
     contentFactor[content] *
-    engagementModifier(engagement) *
     nicheFactor[niche];
 
-  const target = roundRate(Math.max(adjustedTarget, tierAnchor * contentFactor[content] * 0.75));
-  const minimum = roundRate(target * 0.75);
-  const premium = roundRate(target * 1.50);
+  // Smooth follower anchor + bounded performance adjustment.
+  // Performance and engagement can move the target meaningfully without
+  // creating abrupt jumps at arbitrary follower thresholds.
+  const targetRaw = followerTarget * commonModifier * perf * engagementMod;
+
+  // Benchmark guardrails stop the target from drifting implausibly far from
+  // the broad follower/deliverable band while preserving performance effects.
+  const lowerGuard = followerLow * commonModifier * 0.90;
+  const upperGuard = followerHigh * commonModifier * 1.10;
+  const guardedTarget = Math.min(upperGuard, Math.max(lowerGuard, targetRaw));
+
+  const target = roundRate(guardedTarget);
+  const minimum = roundRate(Math.max(followerLow * commonModifier, target * 0.72));
+  const premium = roundRate(Math.min(followerHigh * commonModifier * 1.15, target * 1.55));
 
   const usageLow = roundRate(target * 0.30);
   const usageHigh = roundRate(target * 0.50);
@@ -141,23 +168,22 @@ form.addEventListener("submit", (event) => {
   document.getElementById("exclusive-total").textContent =
     `${money.format(target + exclusiveLow)}–${money.format(target + exclusiveHigh)}`;
 
-  const reachRatio = views / followers;
-  let performanceNote = "Your estimate blends expected reach with a creator-tier pricing floor.";
-  if (reachRatio >= 0.5) {
-    performanceNote = "Your reach is strong relative to your audience size, so performance has meaningful weight in this estimate.";
-  } else if (reachRatio < 0.15) {
-    performanceNote = "Your recent reach is modest relative to audience size, so the creator-tier floor helps prevent a single low-performance period from dominating the estimate.";
+  const ratio = views / followers;
+  let note = "Your estimate uses a smooth audience-size anchor and broad benchmark guardrails.";
+  if (ratio >= 0.50) {
+    note = "Your reach is strong relative to audience size, so performance moves your estimate upward within the benchmark range.";
+  } else if (ratio < 0.15) {
+    note = "Your recent reach is modest relative to audience size, so performance lowers the estimate without creating an abrupt tier penalty.";
   }
 
-  document.getElementById("result-note").textContent =
-    `${tier.name}. ${performanceNote}`;
+  document.getElementById("result-note").textContent = note;
 
   results.classList.remove("hidden");
   results.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 document.getElementById("upgrade-button").addEventListener("click", () => {
-  alert("The ₹499 Creator Pricing Kit checkout and automatic delivery flow will be connected after V3 benchmark testing. No payment is collected on this preview build.");
+  alert("The ₹499 Creator Pricing Kit checkout and automatic delivery flow will be connected after V3.1 benchmark testing. No payment is collected on this preview build.");
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
