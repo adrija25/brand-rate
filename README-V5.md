@@ -27,3 +27,5 @@ This version replaces hosted payment buttons with verified server-side checkout 
 The old Razorpay Payment Button ID and PayPal Hosted Button ID are intentionally not used in V5. Hosted buttons do not give this static app a trustworthy kit-specific server verification path. V5 uses provider order APIs so the backend can verify the exact payment before issuing access.
 
 V5 shows the secure access link immediately after verified payment. Email delivery can be added next with Resend/Postmark so buyers can recover access later.
+
+Deployment refresh after Cloudflare secrets setup.
