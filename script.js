@@ -229,7 +229,12 @@ form.addEventListener("submit", (event) => {
     views,
     engagement,
     content,
-    contentLabel: document.getElementById("content-type").selectedOptions[0].text,
+    contentLabel: (() => {
+      const contentSelect = document.getElementById("content");
+      if (!contentSelect) return content || "Sponsored content";
+      const selectedOption = contentSelect.selectedOptions?.[0];
+      return selectedOption?.text || contentSelect.value || content || "Sponsored content";
+    })(),
     currency: marketCurrency.currency,
     locale: marketCurrency.locale,
     minimum,
