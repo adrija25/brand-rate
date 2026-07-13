@@ -1,10 +1,36 @@
 const form = document.getElementById("rate-form");
 const results = document.getElementById("results");
-const money = new Intl.NumberFormat("en-IN", {
-  style: "currency",
-  currency: "INR",
-  maximumFractionDigits: 0
-});
+const currencyConfig = {
+  india: { currency: "INR", locale: "en-IN", pricingUnit: 1, paidPrice: 499 },
+  us: { currency: "USD", locale: "en-US", pricingUnit: 83, paidPrice: 9 },
+  uk: { currency: "GBP", locale: "en-GB", pricingUnit: 106, paidPrice: 7 },
+  canada: { currency: "CAD", locale: "en-CA", pricingUnit: 61, paidPrice: 12 },
+  australia: { currency: "AUD", locale: "en-AU", pricingUnit: 55, paidPrice: 12 },
+  europe: { currency: "EUR", locale: "en-IE", pricingUnit: 90, paidPrice: 8 },
+  global: { currency: "USD", locale: "en-US", pricingUnit: 83, paidPrice: 9 },
+  other: { currency: "USD", locale: "en-US", pricingUnit: 83, paidPrice: 9 }
+};
+
+function getMoneyFormatter(market) {
+  const config = currencyConfig[market];
+  return new Intl.NumberFormat(config.locale, {
+    style: "currency",
+    currency: config.currency,
+    maximumFractionDigits: 0
+  });
+}
+
+function toMarketCurrency(value, market) {
+  return value / currencyConfig[market].pricingUnit;
+}
+
+function roundMarketRate(value, market) {
+  const currency = currencyConfig[market].currency;
+  if (currency === "INR") return roundRate(value);
+  if (value < 100) return Math.max(10, Math.round(value / 5) * 5);
+  if (value < 1000) return Math.round(value / 25) * 25;
+  return Math.round(value / 50) * 50;
+}
 
 const platformFactor = {
   instagram: 1.00,
@@ -120,6 +146,9 @@ form.addEventListener("submit", (event) => {
 
   if (!followers || !views || followers < 1 || views < 1 || engagement < 0 || engagement > 100) return;
 
+  const money = getMoneyFormatter(market);
+  const marketCurrency = currencyConfig[market];
+
   const followerLow = interpolateLog(followers, "low");
   const followerTarget = interpolateLog(followers, "target");
   const followerHigh = interpolateLog(followers, "high");
@@ -143,14 +172,23 @@ form.addEventListener("submit", (event) => {
   const upperGuard = followerHigh * commonModifier * 1.10;
   const guardedTarget = Math.min(upperGuard, Math.max(lowerGuard, targetRaw));
 
-  const target = roundRate(guardedTarget);
-  const minimum = roundRate(Math.max(followerLow * commonModifier, target * 0.72));
-  const premium = roundRate(Math.min(followerHigh * commonModifier * 1.15, target * 1.55));
+  // The engine keeps one benchmark-normalised internal scale, then expresses
+  // the result in the selected audience market's native pricing currency.
+  // pricingUnit values are product calibration constants, not live FX rates.
+  const target = roundMarketRate(toMarketCurrency(guardedTarget, market), market);
+  const minimum = roundMarketRate(
+    toMarketCurrency(Math.max(followerLow * commonModifier, guardedTarget * 0.72), market),
+    market
+  );
+  const premium = roundMarketRate(
+    toMarketCurrency(Math.min(followerHigh * commonModifier * 1.15, guardedTarget * 1.55), market),
+    market
+  );
 
-  const usageLow = roundRate(target * 0.30);
-  const usageHigh = roundRate(target * 0.50);
-  const exclusiveLow = roundRate(target * 0.25);
-  const exclusiveHigh = roundRate(target * 0.50);
+  const usageLow = roundMarketRate(target * 0.30, market);
+  const usageHigh = roundMarketRate(target * 0.50, market);
+  const exclusiveLow = roundMarketRate(target * 0.25, market);
+  const exclusiveHigh = roundMarketRate(target * 0.50, market);
 
   document.getElementById("minimum").textContent = money.format(minimum);
   document.getElementById("target").textContent = money.format(target);
@@ -176,14 +214,22 @@ form.addEventListener("submit", (event) => {
     note = "Your recent reach is modest relative to audience size, so performance lowers the estimate without creating an abrupt tier penalty.";
   }
 
-  document.getElementById("result-note").textContent = note;
+  document.getElementById("result-note").textContent =
+    `${note} Rates are shown in ${marketCurrency.currency}, based on your selected audience market.`;
+
+  document.getElementById("upgrade-price").textContent =
+    money.format(marketCurrency.paidPrice);
+  document.getElementById("upgrade-button").dataset.market = market;
 
   results.classList.remove("hidden");
   results.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 document.getElementById("upgrade-button").addEventListener("click", () => {
-  alert("The ₹499 Creator Pricing Kit checkout and automatic delivery flow will be connected after V3.1 benchmark testing. No payment is collected on this preview build.");
+  const market = document.getElementById("market").value;
+  const money = getMoneyFormatter(market);
+  const price = money.format(currencyConfig[market].paidPrice);
+  alert(`The ${price} Creator Pricing Kit checkout and automatic delivery flow will be connected in the payment phase. No payment is collected on this preview build.`);
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
