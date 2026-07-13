@@ -8,3 +8,20 @@
 @media(max-width:560px){.addon-row,.addon-total{align-items:flex-start}.addon-row span,.addon-total span{max-width:65%}}
 
 .brand-icon{width:28px;height:28px;vertical-align:middle;margin-right:9px;border-radius:8px}.brand{display:flex;align-items:center}
+
+
+/* V5.1 brand polish + compliance */
+body{background:radial-gradient(circle at 12% 8%,rgba(107,78,255,.14),transparent 28rem),radial-gradient(circle at 88% 22%,rgba(22,76,59,.10),transparent 25rem),linear-gradient(180deg,#fbfaf7 0%,#f7f4ff 48%,#fbfaf7 100%);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.28;background-image:linear-gradient(rgba(107,78,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(107,78,255,.055) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,black,transparent 72%)}
+.site-header{position:relative;z-index:2}.logo{display:flex;align-items:center}.hero{position:relative}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:999px;filter:blur(2px);z-index:-1}
+.hero::before{width:110px;height:110px;background:rgba(107,78,255,.10);left:2%;top:22%}.hero::after{width:70px;height:70px;background:rgba(22,76,59,.10);right:4%;bottom:10%}
+.tool-card,.results{box-shadow:0 24px 70px rgba(56,38,130,.09);backdrop-filter:blur(10px)}
+button{background:linear-gradient(135deg,#171717 0%,#35226f 100%);transition:transform .2s ease,box-shadow .2s ease,opacity .2s ease}
+button:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(53,34,111,.18);opacity:1}
+.upgrade{background:linear-gradient(135deg,#151515 0%,#281b5f 62%,#164c3b 140%);box-shadow:0 22px 55px rgba(38,25,90,.22)}
+.footer-inner{max-width:1040px;margin:auto}.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:10px 20px;margin-bottom:13px}.footer-links a{color:var(--muted);text-decoration:none}.footer-links a:hover{color:var(--accent)}
+.legal-main{max-width:900px}.legal-hero{text-align:center;padding:52px 0 30px}.legal-card{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:22px;padding:clamp(24px,5vw,52px);box-shadow:0 24px 70px rgba(56,38,130,.09);margin-bottom:50px}
+.legal-card h2{margin:34px 0 10px;font-size:1.35rem}.legal-card h2:first-child{margin-top:0}.legal-card p,.legal-card li{color:var(--muted)}.legal-card a{color:var(--accent)}.legal-card ul{padding-left:20px}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:24px 0}.info-box{background:var(--soft);border:1px solid #d8d0ff;border-radius:14px;padding:20px}.info-box strong{display:block;margin-bottom:6px}.info-box p{margin:0}
+@media(max-width:600px){.info-grid{grid-template-columns:1fr}.legal-hero{padding-top:32px}}
