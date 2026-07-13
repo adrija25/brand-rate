@@ -38,12 +38,19 @@
     .lock-box span{display:block;color:#666;margin-top:7px;line-height:1.5}
     .kit-actions{position:sticky;bottom:18px;z-index:20;background:#171717;color:#fff;border-radius:18px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:0 12px 35px rgba(0,0,0,.18)}
     .kit-actions button{border:0;border-radius:12px;padding:14px 20px;margin:0;background:#fff;color:#171717;font-weight:800;cursor:pointer}
-    .payment-options{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
-    .payment-option{min-width:210px}
-    .payment-label{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#bbb;margin-bottom:7px}
-    .payment-option form{margin:0}
-    #paypal-container-X6RM6SU22T6QN{min-width:210px}
-    .payment-note{font-size:12px;color:#bbb;margin-top:5px}
+    .kit-actions{display:block;padding:22px}
+    .purchase-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:18px}
+    .purchase-head strong{font-size:20px}
+    .payment-note{font-size:13px;color:#aaa;margin-top:5px}
+    .payment-options{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%}
+    .payment-option{min-width:0;background:#242424;border:1px solid #3a3a3a;border-radius:16px;padding:18px}
+    .payment-label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#aaa;margin-bottom:7px}
+    .payment-title{font-size:18px;font-weight:800;margin-bottom:4px}
+    .payment-price{font-size:14px;color:#ccc;margin-bottom:16px}
+    .payment-button-zone{min-height:48px;display:flex;align-items:center}
+    .payment-option form{margin:0;width:100%}
+    #paypal-container-X6RM6SU22T6QN{width:100%;min-width:0}
+    .payment-foot{font-size:11px;color:#8f8f8f;margin-top:10px}
     .paid-content{display:none}
     .rate-row{display:flex;justify-content:space-between;gap:18px;padding:15px 0;border-bottom:1px solid #e4dfd7}
     .rate-row:last-child{border-bottom:0}
@@ -51,8 +58,8 @@
     .script-box{background:#f7f5f1;border-radius:14px;padding:20px;line-height:1.65;color:#292929}
     @media(max-width:650px){
       .kit-hero h1{font-size:36px}.kit-grid{grid-template-columns:1fr}.kit-hero,.kit-section,.locked-card{padding:24px}
-      .kit-actions{align-items:stretch;flex-direction:column}.kit-actions button{width:100%}.lock-box{margin-top:55px}
-      .payment-options{width:100%;justify-content:stretch}.payment-option{width:100%;min-width:0}#paypal-container-X6RM6SU22T6QN{min-width:0}
+      .kit-actions{padding:18px}.purchase-head{display:block;margin-bottom:16px}.kit-actions button{width:100%}.lock-box{margin-top:55px}
+      .payment-options{grid-template-columns:1fr}.payment-option{width:auto;min-width:0}#paypal-container-X6RM6SU22T6QN{min-width:0}
     }
     @media print{
       body{background:#fff}.kit-shell{max-width:none;padding:0}.kit-top,.kit-actions,.preview-content{display:none!important}
@@ -118,19 +125,31 @@
     </div>
 
     <div class="kit-actions preview-content">
-      <div>
-        <strong>Unlock your Creator Pricing Kit</strong><br>
-        <span id="unlock-copy"></span>
+      <div class="purchase-head">
+        <div>
+          <strong>Unlock your Creator Pricing Kit</strong><br>
+          <span id="unlock-copy"></span>
+        </div>
         <div class="payment-note">Choose the payment option for your region.</div>
       </div>
       <div class="payment-options">
         <div class="payment-option">
           <span class="payment-label">India · INR</span>
-          <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TCw5Fm8bKM4Tmf" async></script></form>
+          <div class="payment-title">Pay ₹499 in India</div>
+          <div class="payment-price">One-time payment via Razorpay</div>
+          <div class="payment-button-zone">
+            <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TCw5Fm8bKM4Tmf" async></script></form>
+          </div>
+          <div class="payment-foot">For Indian cards, UPI and supported local payment methods.</div>
         </div>
         <div class="payment-option">
           <span class="payment-label">International · USD</span>
-          <div id="paypal-container-X6RM6SU22T6QN"></div>
+          <div class="payment-title">Pay $9 internationally</div>
+          <div class="payment-price">One-time international payment via PayPal</div>
+          <div class="payment-button-zone">
+            <div id="paypal-container-X6RM6SU22T6QN"></div>
+          </div>
+          <div class="payment-foot">For customers paying outside India.</div>
         </div>
       </div>
     </div>
