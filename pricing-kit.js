@@ -73,9 +73,5 @@ if (!raw) {
     paid.setAttribute("aria-hidden", "false");
   }
 
-  document.getElementById("checkout-preview").addEventListener("click", () => {
-    alert(`Your personalised kit is ready. Real ${productPrice} checkout and verified post-payment unlock are the next integration step. No payment has been collected.`);
-  });
-
   // Intentionally no preview unlock. renderPaidKit() must only be called after verified payment.
 }

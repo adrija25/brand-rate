@@ -38,6 +38,12 @@
     .lock-box span{display:block;color:#666;margin-top:7px;line-height:1.5}
     .kit-actions{position:sticky;bottom:18px;z-index:20;background:#171717;color:#fff;border-radius:18px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:0 12px 35px rgba(0,0,0,.18)}
     .kit-actions button{border:0;border-radius:12px;padding:14px 20px;margin:0;background:#fff;color:#171717;font-weight:800;cursor:pointer}
+    .payment-options{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+    .payment-option{min-width:210px}
+    .payment-label{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#bbb;margin-bottom:7px}
+    .payment-option form{margin:0}
+    #paypal-container-X6RM6SU22T6QN{min-width:210px}
+    .payment-note{font-size:12px;color:#bbb;margin-top:5px}
     .paid-content{display:none}
     .rate-row{display:flex;justify-content:space-between;gap:18px;padding:15px 0;border-bottom:1px solid #e4dfd7}
     .rate-row:last-child{border-bottom:0}
@@ -46,6 +52,7 @@
     @media(max-width:650px){
       .kit-hero h1{font-size:36px}.kit-grid{grid-template-columns:1fr}.kit-hero,.kit-section,.locked-card{padding:24px}
       .kit-actions{align-items:stretch;flex-direction:column}.kit-actions button{width:100%}.lock-box{margin-top:55px}
+      .payment-options{width:100%;justify-content:stretch}.payment-option{width:100%;min-width:0}#paypal-container-X6RM6SU22T6QN{min-width:0}
     }
     @media print{
       body{background:#fff}.kit-shell{max-width:none;padding:0}.kit-top,.kit-actions,.preview-content{display:none!important}
@@ -111,10 +118,30 @@
     </div>
 
     <div class="kit-actions preview-content">
-      <div><strong>Unlock your Creator Pricing Kit</strong><br><span id="unlock-copy"></span></div>
-      <button id="checkout-preview" type="button">Unlock my kit</button>
+      <div>
+        <strong>Unlock your Creator Pricing Kit</strong><br>
+        <span id="unlock-copy"></span>
+        <div class="payment-note">Choose the payment option for your region.</div>
+      </div>
+      <div class="payment-options">
+        <div class="payment-option">
+          <span class="payment-label">India · INR</span>
+          <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TCw5Fm8bKM4Tmf" async></script></form>
+        </div>
+        <div class="payment-option">
+          <span class="payment-label">International · USD</span>
+          <div id="paypal-container-X6RM6SU22T6QN"></div>
+        </div>
+      </div>
     </div>
   </main>
+  <script src="https://www.paypal.com/sdk/js?client-id=BAAzWfSbnKYbltgmm5QTGpHmulutB1qc9_GJaCaRgNaSwf5NkESOEx5G0bOuRuy62gjT4i4kZ5Nxo5VqWE&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+  <script>
+    if (window.paypal && paypal.HostedButtons) {
+      paypal.HostedButtons({ hostedButtonId: "X6RM6SU22T6QN" })
+        .render("#paypal-container-X6RM6SU22T6QN");
+    }
+  </script>
   <script src="pricing-kit.js"></script>
 </body>
 </html>
