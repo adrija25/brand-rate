@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Brand Rate — Influencer Sponsorship Rate Calculator</title>
+  <meta name="description" content="Estimate your influencer sponsorship rate based on platform, audience, average views, engagement and content type.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="/">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="/" aria-label="Brand Rate home">Brand Rate</a>
+    <span class="tag">Free creator pricing tool</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">INFLUENCER SPONSORSHIP CALCULATOR</p>
+      <h1>What should you charge a brand?</h1>
+      <p class="intro">Get a practical sponsorship rate range in under a minute. No account required.</p>
+    </section>
+
+    <section class="tool-card" aria-labelledby="calculator-title">
+      <h2 id="calculator-title">Calculate your brand rate</h2>
+      <form id="rate-form">
+        <label for="platform">Platform</label>
+        <select id="platform" required>
+          <option value="instagram">Instagram</option>
+          <option value="tiktok">TikTok</option>
+          <option value="youtube">YouTube</option>
+        </select>
+
+        <label for="followers">Followers or subscribers</label>
+        <input id="followers" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 25000" required>
+
+        <label for="views">Average views or reach per post</label>
+        <input id="views" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 8000" required>
+
+        <label for="engagement">Engagement rate <span>(optional)</span></label>
+        <div class="input-suffix">
+          <input id="engagement" type="number" min="0" max="100" step="0.1" inputmode="decimal" placeholder="e.g. 4.5">
+          <b>%</b>
+        </div>
+        <p class="hint">Not sure? Leave this blank. We will use a neutral baseline.</p>
+
+        <label for="content">Sponsored content type</label>
+        <select id="content" required>
+          <option value="story">Story / short story set</option>
+          <option value="post">Static feed post</option>
+          <option value="short">Reel / TikTok / Short</option>
+          <option value="integration">YouTube integration</option>
+          <option value="dedicated">Dedicated YouTube video</option>
+        </select>
+
+        <button type="submit">Calculate My Brand Rate</button>
+      </form>
+    </section>
+
+    <section id="results" class="results hidden" aria-live="polite">
+      <p class="eyebrow">YOUR ESTIMATED SPONSORSHIP RATE</p>
+      <div class="rate-grid">
+        <div><span>Minimum</span><strong id="minimum">—</strong></div>
+        <div class="featured"><span>Target</span><strong id="target">—</strong></div>
+        <div><span>Premium</span><strong id="premium">—</strong></div>
+      </div>
+
+      <p id="result-note" class="result-note"></p>
+
+      <h3>Common brand add-ons</h3>
+      <div class="addons">
+        <div><span>30-day paid usage rights</span><strong id="usage">—</strong></div>
+        <div><span>30-day category exclusivity</span><strong id="exclusive">—</strong></div>
+      </div>
+
+      <p class="disclaimer">These are directional negotiation estimates, not guaranteed market rates. Actual fees vary by niche, audience quality, geography, production scope, brand budget, licensing terms and campaign requirements.</p>
+
+      <div class="upgrade">
+        <p class="eyebrow">CREATOR RATE CARD</p>
+        <h2>Turn your estimate into a professional rate card</h2>
+        <p>Get a personalised PDF with recommended deliverable rates, package pricing, usage-rights add-ons and negotiation notes.</p>
+        <div class="price">₹499</div>
+        <button id="upgrade-button" type="button">Get My Personalised Rate Card</button>
+        <p class="small">Paid checkout will be connected in the payment phase. No payment is collected on this preview build.</p>
+      </div>
+    </section>
+
+    <section class="content">
+      <h2>How Brand Rate works</h2>
+      <p>Brand Rate combines audience size with average content performance, engagement and deliverable complexity to create a practical starting range for sponsorship negotiations.</p>
+      <h2>Why follower count is not enough</h2>
+      <p>Two creators with the same follower count can deliver very different reach. That is why the calculator gives average views or reach meaningful weight and adjusts for engagement.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Brand Rate · Estimates for informational purposes only.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
