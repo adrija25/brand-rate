@@ -45,6 +45,22 @@
         </select>
         <p class="hint">Choose the main location of your audience, not where you personally live.</p>
 
+        <label for="niche">Creator niche</label>
+        <select id="niche" required>
+          <option value="lifestyle">Lifestyle</option>
+          <option value="beauty">Beauty</option>
+          <option value="fashion">Fashion</option>
+          <option value="fitness">Fitness</option>
+          <option value="food">Food</option>
+          <option value="travel">Travel</option>
+          <option value="gaming">Gaming</option>
+          <option value="tech">Tech</option>
+          <option value="finance">Finance &amp; Business</option>
+          <option value="education">Education</option>
+          <option value="parenting">Parenting</option>
+          <option value="other">Other</option>
+        </select>
+
         <label for="followers">Followers or subscribers</label>
         <input id="followers" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 25000" required>
 
@@ -82,24 +98,24 @@
       <p id="result-note" class="result-note"></p>
 
       <h3>Common brand add-ons</h3>
-      <p class="section-note">Add-ons are shown separately so you can see what to charge on top of your target rate.</p>
+      <p class="section-note">These suggested ranges are shown separately so you can see what may be charged on top of your target rate.</p>
       <div class="addon-card">
         <div class="addon-row"><span>Base target rate</span><strong id="usage-base">—</strong></div>
-        <div class="addon-row"><span>+ 30-day paid usage rights</span><strong id="usage-addon">—</strong></div>
+        <div class="addon-row"><span>+ Suggested 30-day paid usage rights</span><strong id="usage-addon">—</strong></div>
         <div class="addon-total"><span>Adjusted total</span><strong id="usage-total">—</strong></div>
       </div>
       <div class="addon-card">
         <div class="addon-row"><span>Base target rate</span><strong id="exclusive-base">—</strong></div>
-        <div class="addon-row"><span>+ 30-day category exclusivity</span><strong id="exclusive-addon">—</strong></div>
+        <div class="addon-row"><span>+ Suggested 30-day category exclusivity</span><strong id="exclusive-addon">—</strong></div>
         <div class="addon-total"><span>Adjusted total</span><strong id="exclusive-total">—</strong></div>
       </div>
 
-      <p class="disclaimer">These are directional negotiation estimates, not guaranteed market rates. Actual fees vary by niche, audience quality, geography, production scope, brand budget, licensing terms and campaign requirements.</p>
+      <p class="disclaimer">Brand Rate provides directional negotiation estimates, not guaranteed market rates. The calculator uses broad benchmark bands and modifiers. Actual fees vary by niche, audience quality, geography, production scope, campaign goals, licensing terms, exclusivity, brand budget and creator demand.</p>
 
       <div class="upgrade">
-        <p class="eyebrow">CREATOR RATE CARD</p>
-        <h2>Turn your estimate into a professional rate card</h2>
-        <p>Get a personalised PDF with recommended deliverable rates, package pricing, usage-rights add-ons and negotiation notes.</p>
+        <p class="eyebrow">CREATOR PRICING KIT</p>
+        <h2>Turn your estimate into a practical creator pricing kit</h2>
+        <p>Get personalised suggested rate ranges, deliverable guidance, usage-rights and exclusivity fee tables, three package ideas, a negotiation floor, brand-response scripts and a one-page downloadable rate card.</p>
         <div class="price">₹499</div>
         <button id="upgrade-button" type="button">Get My Personalised Rate Card</button>
         <p class="small">Paid checkout will be connected in the payment phase. No payment is collected on this preview build.</p>
@@ -108,9 +124,11 @@
 
     <section class="content">
       <h2>How Brand Rate works</h2>
-      <p>Brand Rate combines audience size, average content performance, engagement, primary audience market and deliverable complexity to create a practical starting range for sponsorship negotiations.</p>
+      <p>Brand Rate uses a hybrid model that blends average reach with a creator-tier pricing floor, then considers engagement, primary audience market, niche and deliverable complexity to create a practical starting range for sponsorship negotiations.</p>
       <h2>Why follower count is not enough</h2>
       <p>Two creators with the same follower count can deliver very different reach. That is why the calculator gives average views or reach meaningful weight and adjusts for engagement.</p>
+      <h2>Why Brand Rate uses two pricing anchors</h2>
+      <p>Reach helps estimate the visibility a sponsored deliverable may generate. Creator tier provides a broad floor so one weak performance period does not erase the value of an established audience. Brand Rate blends both anchors rather than pricing from follower count alone.</p>
       <h2>Why audience location matters</h2>
       <p>Brand campaign budgets and the commercial value of audience reach vary across markets. Brand Rate uses broad market adjustments as an estimation input. These adjustments are directional and cannot represent every brand, niche or campaign.</p>
     </section>
