@@ -217,6 +217,32 @@ form.addEventListener("submit", (event) => {
   document.getElementById("result-note").textContent =
     `${note} Rates are shown in ${marketCurrency.currency}, based on your selected audience market.`;
 
+
+  const pricingKitData = {
+    generatedAt: new Date().toISOString(),
+    platform,
+    market,
+    marketLabel: document.getElementById("market").selectedOptions[0].text,
+    niche,
+    nicheLabel: document.getElementById("niche").selectedOptions[0].text,
+    followers,
+    views,
+    engagement,
+    content,
+    contentLabel: document.getElementById("content-type").selectedOptions[0].text,
+    currency: marketCurrency.currency,
+    locale: marketCurrency.locale,
+    minimum,
+    target,
+    premium,
+    usageLow,
+    usageHigh,
+    exclusiveLow,
+    exclusiveHigh,
+    note
+  };
+  localStorage.setItem("brandRatePricingKitData", JSON.stringify(pricingKitData));
+
   document.getElementById("upgrade-price").textContent =
     money.format(marketCurrency.paidPrice);
   document.getElementById("upgrade-button").dataset.market = market;
@@ -226,10 +252,12 @@ form.addEventListener("submit", (event) => {
 });
 
 document.getElementById("upgrade-button").addEventListener("click", () => {
-  const market = document.getElementById("market").value;
-  const money = getMoneyFormatter(market);
-  const price = money.format(currencyConfig[market].paidPrice);
-  alert(`The ${price} Creator Pricing Kit checkout and automatic delivery flow will be connected in the payment phase. No payment is collected on this preview build.`);
+  const data = localStorage.getItem("brandRatePricingKitData");
+  if (!data) {
+    alert("Calculate your brand rate first so we can personalise your Creator Pricing Kit.");
+    return;
+  }
+  window.location.href = "pricing-kit.html?mode=preview";
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Your Creator Pricing Kit | Brand Rate</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .kit-shell{max-width:900px;margin:0 auto;padding:32px 20px 70px}
+    .kit-top{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:30px}
+    .kit-top a{color:#171717;text-decoration:none;font-weight:700}
+    .kit-hero,.kit-section{background:#fff;border:1px solid #ded9d0;border-radius:22px;padding:32px;margin-bottom:18px}
+    .kit-kicker{color:#6554ff;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .kit-hero h1{font-size:46px;line-height:1.05;margin:12px 0}
+    .kit-sub{color:#666;font-size:18px;line-height:1.5}
+    .kit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:25px}
+    .kit-stat{border:1px solid #ded9d0;border-radius:15px;padding:18px}
+    .kit-stat strong{display:block;font-size:27px;margin-top:7px}
+    .kit-stat.target{background:#f0edff;border-color:#c8bfff}
+    .kit-section h2{font-size:28px;margin:0 0 8px}
+    .kit-section p{color:#555;line-height:1.6}
+    .rate-row{display:flex;justify-content:space-between;gap:18px;padding:15px 0;border-bottom:1px solid #e4dfd7}
+    .rate-row:last-child{border-bottom:0}
+    .rate-row strong{text-align:right}
+    .script-box{background:#f7f5f1;border-radius:14px;padding:20px;line-height:1.65;color:#292929}
+    .kit-actions{position:sticky;bottom:18px;background:#171717;color:white;border-radius:18px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:0 12px 35px rgba(0,0,0,.18)}
+    .kit-actions button{border:0;border-radius:12px;padding:14px 20px;font-weight:800;cursor:pointer}
+    .preview-lock{border:2px dashed #c8bfff;background:#f7f5ff}
+    .small{font-size:13px;color:#777}
+    @media(max-width:650px){.kit-hero h1{font-size:36px}.kit-grid{grid-template-columns:1fr}.kit-hero,.kit-section{padding:24px}.kit-actions{align-items:stretch;flex-direction:column}.kit-actions button{width:100%}}
+    @media print{
+      body{background:#fff}
+      .kit-shell{max-width:none;padding:0}
+      .kit-top,.kit-actions,.preview-only{display:none!important}
+      .kit-hero,.kit-section{break-inside:avoid;border-color:#ccc}
+    }
+  </style>
+</head>
+<body>
+  <main class="kit-shell">
+    <div class="kit-top"><a href="index.html">← Brand Rate</a><span>Personalised Creator Pricing Kit</span></div>
+
+    <section class="kit-hero">
+      <div class="kit-kicker">Creator Pricing Kit</div>
+      <h1>Your sponsorship pricing plan</h1>
+      <p class="kit-sub" id="profile-summary"></p>
+      <div class="kit-grid">
+        <div class="kit-stat"><span>Minimum</span><strong id="min-rate"></strong></div>
+        <div class="kit-stat target"><span>Target</span><strong id="target-rate"></strong></div>
+        <div class="kit-stat"><span>Premium</span><strong id="premium-rate"></strong></div>
+      </div>
+      <p class="small" id="method-note"></p>
+    </section>
+
+    <section class="kit-section">
+      <h2>Your deliverable pricing</h2>
+      <p>Use your target as the starting quote. Your minimum is the lower negotiation boundary suggested by this kit; it is not a rule that you must accept a deal at that amount.</p>
+      <div id="deliverables"></div>
+    </section>
+
+    <section class="kit-section">
+      <h2>Usage rights & exclusivity</h2>
+      <p>These are separate commercial rights. Do not silently include them in your base content fee unless the agreement clearly says so.</p>
+      <div class="rate-row"><span>30-day paid usage rights</span><strong id="usage-rate"></strong></div>
+      <div class="rate-row"><span>30-day category exclusivity</span><strong id="exclusive-rate"></strong></div>
+    </section>
+
+    <section class="kit-section">
+      <h2>Your package ideas</h2>
+      <div id="packages"></div>
+    </section>
+
+    <section class="kit-section">
+      <h2>Brand negotiation language</h2>
+      <p>Copy, personalise and send these as a starting point.</p>
+      <h3>When a brand asks for your rate</h3>
+      <div class="script-box" id="rate-script"></div>
+      <h3>When the budget is below your quote</h3>
+      <div class="script-box" id="budget-script"></div>
+      <h3>When usage rights are requested</h3>
+      <div class="script-box" id="usage-script"></div>
+    </section>
+
+    <section class="kit-section preview-lock preview-only">
+      <div class="kit-kicker">Paid product preview</div>
+      <h2>Your personalised kit is built.</h2>
+      <p>This preview proves the product architecture before checkout is connected. In the payment phase, successful payment will unlock the full kit and its PDF save action automatically.</p>
+    </section>
+
+    <div class="kit-actions preview-only">
+      <div><strong id="unlock-title">Unlock your Creator Pricing Kit</strong><br><span id="unlock-copy"></span></div>
+      <button id="checkout-preview">Checkout integration is next</button>
+    </div>
+  </main>
+  <script src="pricing-kit.js"></script>
+</body>
+</html>
